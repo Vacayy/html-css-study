@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            background: black;
+            height: 6000px;
+            font-family: 'nanumsquare';
+        }
+
+        div {
+            margin-bottom: 1000px;
+            color: white;
+            text-align: center;
+            opacity: 0;
+            transition: all 2s ease-out;
+            /* Initially, translate the divs to the right off-screen */
+            transform: translateX(50vw);
+            /* 화면의 오른쪽에서 시작 */
+            position: relative;
+
+        }
+    </style>
+</head>
+
+<body>
+
+    <div>
+        <h1>111111</h1>
+    </div>
+    <div>
+        <h1>222222</h1>
+    </div>
+    <div>
+        <h1>333333</h1>
+    </div>
+    <div>
+        <h1>444444</h1>
+    </div>
+
+    <script>
+        let observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) { // When the div becomes visible
+                    entry.target.style.opacity = 1;
+                    entry.target.style.transform = "translateX(0)"; // 중앙으로 이동
+                } else { // When the div is not visible
+                    entry.target.style.opacity = 0;
+                    entry.target.style.transform = "translateX(0)"; // 원래 위치로
+                }
+            });
+        }, { threshold: 0.5 }); // Adjust threshold as needed
+
+        let divs = document.querySelectorAll('div');
+
+        divs.forEach(div => {
+            observer.observe(div);
+        });
+    </script>
+
+
+
+</body>
+
+</html>
