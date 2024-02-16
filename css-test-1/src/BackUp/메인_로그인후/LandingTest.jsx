@@ -1,9 +1,12 @@
 import React from 'react';
 import styled, { createGlobalStyle, keyframes } from 'styled-components';
 import music_note from '../assets/images/music_notes.png';
+import piano_img from '../assets/images/piano_img.png';
+import workplace_img from '../assets/images/myWorkplace.png';
+import snapshot_img from '../assets/images/mySnapshot.png';
 import LandingScroll from './LandingScroll';
-import CardTest from './CardTest';
 import { LandingTile } from './LandingTile';
+import Header from './Header';
 
 const GlobalStyle = createGlobalStyle`
   @import url('https://fonts.googleapis.com/css?family=Lato:300,400');
@@ -36,11 +39,14 @@ const moveForeverAnimation = keyframes`
 `;
 
 const WaveHeader = styled.div`
-//   position: relative;  
-  text-align: center;
-  background: linear-gradient(60deg, #49C5B6 0%, rgba(0,172,193,1) 100%);
+  /* position: relative;   */
+  text-align: center;   
+  /* background: linear-gradient(60deg, #49C5B6 0%, rgba(0,172,193,1) 100%); */
+  /* background: linear-gradient(60deg, #84c4bd 0%, #54c1cf 100%); */
+  background: linear-gradient(60deg, #84c4bd 0%, rgba(0,172,193,1) 100%);
   color: white;
-  height: 80vh;
+  /* height: 50vh; */
+  height: 90vh;
 
   display: flex;
   flex-direction: column;
@@ -124,10 +130,72 @@ const MusicNoteImage = styled.div`
 
 `;
 
+
+// 타일 부분
+const fadeInRight = keyframes`
+  from {
+    opacity: 0;
+    transform: translateX(20rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+`;
+
+const fadeInUp = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(-3rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
+
+const TilesContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center; // 세로 방향 가운데 정렬
+  align-items: center; // 가로 방향 가운데 정렬
+  height: 100%; // 부모 컨테이너(WaveHeader)의 높이와 동일하게 설정
+`;
+
+const TileSection = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px; // 타일 간격 조정
+  animation: ${fadeInUp} 2s ease-out forwards;
+
+  & > * {    
+    animation-delay: calc(var(--tile-index) * 1s);// 각 타일에 대한 지연 시간 설정
+    animation-fill-mode: forwards;
+  }
+`;
+// const TileSection = styled.div`
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   flex-wrap: wrap;
+//   gap: 20px; // 타일 간격 조정
+//   animation: ${fadeInUp} 2s ease-out forwards;
+
+//   & > * {    
+//     animation-delay: calc(var(--tile-index) * 0.2s); // 타일 인덱스에 따라 지연 시간 적용
+//   }
+// `;
+
+
+// 타일 아래 부분
+
 const ScrollableContent = styled.div`
   background-color: white;
   padding: 20px;
   height: 200vh; // 스크롤 가능한 높이 설정
+  width: 100vw;
 `;
 
 
@@ -135,20 +203,53 @@ const LandingTest = () => {
   return (
     <>
       <GlobalStyle />
+      <Header />
       {/* <MusicNoteImage /> */}
       <WaveHeader>
-        <InnerHeader>
+        {/* <InnerHeader>
           <Title>Let's Note</Title>
-        </InnerHeader>
+        </InnerHeader> */}
+
+        <TilesContainer>
+
+          <TileSection>
+            <LandingTile
+              style={{ '--tile-index': '0' }}
+              index={0}
+              imgSrc={piano_img}
+              title={"작업하기"}
+              description={"누구나 음악을 연주하고, 나만의 작품을 남길 수 있어요"}
+            />
+            <LandingTile
+              style={{ '--tile-index': '1' }}
+              imgSrc={workplace_img}
+              title={"내 작업실"}
+              description={"이전 작업을 이어서 할 수 있어요"}
+            />
+            <LandingTile
+              style={{ '--tile-index': '2' }}
+              imgSrc={snapshot_img}
+              title={"내 작품"}
+              description={"내 작품들을 모아서 감상하세요"}
+            />
+            <LandingTile
+              style={{ '--tile-index': '3' }}
+              imgSrc={"https://i.pinimg.com/originals/48/1f/92/481f92a061e83e3cf32c683a1c808f79.jpg"}
+              title={"구경하기"}
+              description={"다른 사람의 작품을 구경하세요"}
+            />
+          </TileSection>
+        </TilesContainer>
 
         <WavesContainer>
           <svg className="waves" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink"
             viewBox="0 24 150 28" preserveAspectRatio="none" shapeRendering="auto">
             <defs>
               <path id="gentle-wave"
-                // d="M-160 44c30 0 58-18 88-20s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
                 // d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
-                d="M-160 44c30 0 58-10 88-10s 58 10 88 10 58-10 88-10 58 10 88 10 v44h-352z" />
+                // d="M-160 44c30 0 58-10 88-10s 58 10 88 10 58-10 88-10 58 10 88 10 v44h-352z" />
+                // d="M-160 44c30 0 58-4 88-4s 58 4 88 4 58-4 88-4 58 4 88 4 v44h-352z" />
+                d="M-160 44c30 0 58-3 88-3s 58 3 88 3 58-3 88-3 58 3 88 3 v44h-352z" />
             </defs>
             <g className="parallax">
               <use xlinkHref="#gentle-wave" x="48" y="0" fill="rgba(255,255,255,0.7" />
@@ -161,8 +262,6 @@ const LandingTest = () => {
         </WavesContainer>
       </WaveHeader>
       <ScrollableContent>
-        {/* <CardTest dataImage={'https://images.unsplash.com/photo-1479644025832-60dabb8be2a1?dpr=2&auto=compress,format&fit=crop&w=1199&h=799&q=80&cs=tinysrgb&crop='}/> */}
-        <LandingTile imgSrc={"https://images.unsplash.com/photo-1464054313797-e27fb58e90a9?dpr=1&auto=format&crop=entropy&fit=crop&w=1500&h=996&q=80"} />
         <LandingScroll />
       </ScrollableContent>
     </>

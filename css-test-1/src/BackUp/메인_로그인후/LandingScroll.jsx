@@ -11,28 +11,88 @@ const Container_white = styled.div`
 `;
 
 const Container_grey = styled.div`
-  height: 100vh; // 전체 뷰포트 높이를 차지하도록 설정
-  width: 120vw;
-  overflow: hidden; // 필요한 경우 내부 컨텐츠가 컨테이너를 넘어갈 때 숨김 처리
+  height: 100vh;  
+  overflow: hidden;
   display: flex;
   flex-direction: column;
-  justify-content: center; // 섹션 내용을 수직 중앙 정렬
-  align-items: center; // 섹션 내용을 수평 중앙 정렬
-  background-color: #ECF9F7;
+  justify-content: center;
+  align-items: center;
+  /* background-color: #ECF9F7; */
 `;
 
-const HiddenSection = styled.section`
-  text-align: center;
-  margin-top: 20rem;
-  margin-bottom: 30rem;
-  opacity: 0;
-  transition: opacity 1.2s ease-in-out;
-  visibility: hidden;
-  &.show {
+// const HiddenSection = styled.section`
+//   text-align: center;
+//   margin-top: 20rem;
+//   margin-bottom: 30rem;
+//   opacity: 0;
+//   transition: opacity 1.2s ease-in-out;
+//   visibility: hidden;
+//   &.show {
+//     opacity: 1;
+//     visibility: visible;
+//   }
+// `;
+
+const fadeInRight = keyframes`
+  from {
+    opacity: 0;
+    transform: translateX(17rem);
+  }
+  to {
     opacity: 1;
+    transform: translateX(0);
     visibility: visible;
   }
 `;
+
+const fadeInLeft = keyframes`
+  from {
+    opacity: 0;
+    transform: translateX(-17rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+    visibility: visible;
+  }
+`;
+
+
+const HiddenSectionRight = styled.section`
+  text-align: center;
+  padding: 5vh 0; // 화면의 높이에 따라 유동적으로 조정
+  opacity: 0;
+  transition: opacity 1.2s ease-in-out;
+  visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%; // 부모 컨테이너의 높이를 꽉 채우도록 설정
+
+  &.show {
+    animation: ${fadeInRight} 2s ease-out forwards;
+  }
+`;
+
+const HiddenSectionLeft = styled.section`
+  text-align: center;
+  padding: 5vh 0; // 화면의 높이에 따라 유동적으로 조정
+  opacity: 0;
+  transition: opacity 1.2s ease-in-out;
+  visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%; // 부모 컨테이너의 높이를 꽉 채우도록 설정
+
+  &.show {
+    animation: ${fadeInLeft} 2s ease-out forwards;
+  }
+`;
+
+
 
 
 const LogoImage = styled.img`
@@ -67,41 +127,42 @@ const LandingScroll = () => {
     return (
         <div>
             <Container_white>
-                <HiddenSection ref={(el) => sectionsRef.current[0] = el}>
+                <HiddenSectionRight ref={(el) => sectionsRef.current[0] = el}>
                     <h1>기능 1</h1>
                     <p>환영합니다</p>
-                </HiddenSection>
+                </HiddenSectionRight>
             </Container_white>
 
             <Container_grey>
-                <HiddenSection ref={(el) => sectionsRef.current[1] = el}>
+                <HiddenSectionLeft ref={(el) => sectionsRef.current[1] = el}>
+                    <h1>기능 2</h1>
                     <h1>기능 2</h1>
                     <p>누구나 따라할 수 있습니다</p>
                     <div>
                         {/* <LogoImage src="https://i.pinimg.com/originals/9e/2c/9d/9e2c9de6ef76ef5e95fcd3d1d6d67d81.jpg" alt="Logo A" /> */}
                     </div>
-                </HiddenSection>
+                </HiddenSectionLeft>
             </Container_grey>
 
             <Container_white>
-                <HiddenSection ref={(el) => sectionsRef.current[2] = el}>
+                <HiddenSectionRight ref={(el) => sectionsRef.current[2] = el}>
                     <h1>기능 3</h1>
                     <div className="logos">
                         <div>
                             {/* <LogoImage src="https://i.pinimg.com/originals/9e/2c/9d/9e2c9de6ef76ef5e95fcd3d1d6d67d81.jpg" alt="Logo" /> */}
                         </div>
                     </div>
-                </HiddenSection>
+                </HiddenSectionRight>
             </Container_white>
 
             <Container_grey>
-                <HiddenSection ref={(el) => sectionsRef.current[1] = el}>
+                <HiddenSectionLeft ref={(el) => sectionsRef.current[3] = el}>
                     <h1>기능 4</h1>
                     <p>누구나 따라할 수 있습니다</p>
                     <div>
                         {/* <LogoImage src="https://i.pinimg.com/originals/9e/2c/9d/9e2c9de6ef76ef5e95fcd3d1d6d67d81.jpg" alt="Logo A" /> */}
                     </div>
-                </HiddenSection>
+                </HiddenSectionLeft>
             </Container_grey>
 
         </div>
