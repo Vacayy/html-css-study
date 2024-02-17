@@ -139,9 +139,9 @@ const Dots = styled.div`
   }
 `;
 
-export const MenuTile = ({ imgSrc, title, description }) => {
+export const MenuTile = ({ onClick, imgSrc, title, description }) => {
   return (
-    <TileStyled>
+    <TileStyled onClick={onClick}>
       <TileImg src={imgSrc} />
       <Text>
         <Heading1>{title}</Heading1>

@@ -31,10 +31,12 @@ const TileSection = styled.div`
   }
 `;
 
-const MainMenuTiles = () => {
+const MainMenuTiles = ({ enterMyWorkspaces, enterMySnapshots, enterFeed }) => {  
+
     return (
         <TileSection>
             <MenuTile
+                // onClick={'새작업실만들기'}
                 style={{ '--tile-index': '0' }}
                 index={0}
                 imgSrc={piano_img}
@@ -42,18 +44,21 @@ const MainMenuTiles = () => {
                 description={"누구나 음악을 연주하고, 나만의 작품을 남길 수 있어요"}
             />
             <MenuTile
+                onClick={()=>enterMyWorkspaces()}
                 style={{ '--tile-index': '1' }}
                 imgSrc={workplace_img}
                 title={"내 작업실"}
                 description={"이전 작업을 이어서 할 수 있어요"}
             />
             <MenuTile
+                onClick={() => enterMySnapshots()}
                 style={{ '--tile-index': '2' }}
                 imgSrc={snapshot_img}
                 title={"내 작품"}
                 description={"내 작품들을 모아서 감상하세요"}
             />
             <MenuTile
+                onClick={() => enterFeed()} 
                 style={{ '--tile-index': '3' }}
                 imgSrc={"https://i.pinimg.com/originals/48/1f/92/481f92a061e83e3cf32c683a1c808f79.jpg"}
                 title={"구경하기"}

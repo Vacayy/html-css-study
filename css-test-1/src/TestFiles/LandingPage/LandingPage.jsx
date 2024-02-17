@@ -1,10 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled, { createGlobalStyle, keyframes } from 'styled-components';
 import music_note from '../../assets/images/music_notes.png';
+import HeaderAnon from '../Common/HeaderAnon';
 import LandingScroll from './LandingScroll';
-import Header from '../Common/Header';
 import MainMenuTiles from './MainMenuTiles';
 import WavesEffect from './WavesEffect';
+import HeaderUser from '../Common/HeaderUser';
+
+/* 가정 */
+import AnonLandingContainer from '../Container/AnonLandingContainer';
+import MyWorkspacesContainer from '../Container/MyWorkspacesContainer';
+import MySnapshotsContainer from '../Container/MySnapshotsContainer';
+import FeedContainer from '../Container/FeedContainer';
 
 const GlobalStyle = createGlobalStyle`
   @import url('https://fonts.googleapis.com/css?family=Lato:300,400');
@@ -103,7 +110,7 @@ const fadeInUp = keyframes`
   }
 `;
 
-const TilesContainer = styled.div`
+const MainMenuContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center; // 세로 방향 가운데 정렬
@@ -123,10 +130,75 @@ const ScrollableContent = styled.div`
 
 
 const LandingPage = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [mode, setMode] = useState(0);
+
+  const login = () => {
+    setIsLoggedIn(true);
+    setMode(1);
+  }
+
+  const logout = () => {
+    setIsLoggedIn(false);
+    setMode(0);
+  }
+
+  const backToUserHome = () => {
+    setMode(1);
+  }
+
+  const enterMyWorkspaces = () => {
+    setMode(2);
+    console.log(`mode = 2`)
+  }
+
+  const enterMySnapshots = () => {
+    setMode(3);
+    console.log(`mode = 3`)
+  }
+
+  const enterFeed = () => {
+    setMode(4);
+    console.log(`mode = 4`)
+  }
+
+  const renderMainContainer = () => {
+    switch (mode) {
+      case 0:
+        return <AnonLandingContainer />;
+      case 1:
+        return (
+          <MainMenuContainer>
+            <MainMenuTiles
+              enterMyWorkspaces={enterMyWorkspaces}
+              enterMySnapshots={enterMySnapshots}
+              enterFeed={enterFeed}
+            />
+          </MainMenuContainer>
+        );
+      case 2:
+        return <MyWorkspacesContainer />;
+      case 3:
+        return <MySnapshotsContainer />;
+      case 4:
+        return <FeedContainer />;
+      default:
+        return <AnonLandingContainer />;
+    }
+  };
+
   return (
     <>
       <GlobalStyle />
-      <Header />
+      {isLoggedIn ? (
+        <HeaderUser
+          logout={logout}
+          backToUserHome={backToUserHome}
+        />
+      ) : (
+        <HeaderAnon login={login} />
+      )
+      }
       {/* <MusicNoteImage /> */}
 
       <LandingMainContainer>
@@ -134,10 +206,9 @@ const LandingPage = () => {
           <Title>Let's Note</Title>
         </InnerHeader> */}
 
-        <TilesContainer>
-          <MainMenuTiles />
-        </TilesContainer>
-
+        <MainMenuContainer>
+          {renderMainContainer()}
+        </MainMenuContainer>
         <WavesEffect />
 
       </LandingMainContainer>

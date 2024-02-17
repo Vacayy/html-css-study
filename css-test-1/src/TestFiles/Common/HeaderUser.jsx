@@ -31,6 +31,7 @@ const HeaderStyled = styled.header`
 `;
 
 const Logo = styled.a`
+  cursor: pointer;
   font-size: 32px;
   color: white;
   text-decoration: none;
@@ -38,7 +39,7 @@ const Logo = styled.a`
 `;
 
 const Navbar = styled.nav`
-  a {
+  btn {
     position: relative;
     font-size: 1.1rem;
     color: white;
@@ -63,20 +64,20 @@ const Navbar = styled.nav`
   }
 `;
 
-const Header = () => {
+const HeaderUser = ({logout, backToUserHome}) => {
   return (
     <>
       <GlobalStyle />
       <HeaderStyled>
-        <Logo href="#">Let's Note</Logo>
+        <Logo onClick={()=>backToUserHome()}>Let's Note</Logo>
         <Navbar>
-          <a href="#">피드백 주기</a>
-          <a href="#">회원가입</a>
-          <a href="#">로그인</a>
+          <btn href="#">피드백 주기</btn>
+          <btn href="#">회원정보 수정</btn>
+          <btn onClick={logout}>로그아웃</btn>
         </Navbar>
       </HeaderStyled>
     </>
   );
 }
 
-export default Header;
+export default HeaderUser;
