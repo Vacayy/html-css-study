@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import styled, { createGlobalStyle, keyframes } from 'styled-components';
+import React, { useState, useEffect } from 'react';
+import styled, { css, createGlobalStyle, keyframes } from 'styled-components';
 import music_note from '../../assets/images/music_notes.png';
 import HeaderAnon from '../Common/HeaderAnon';
 import LandingScroll from './LandingScroll';
@@ -12,6 +12,7 @@ import AnonLandingContainer from '../Container/AnonLandingContainer';
 import MyWorkspacesContainer from '../Container/MyWorkspacesContainer';
 import MySnapshotsContainer from '../Container/MySnapshotsContainer';
 import FeedContainer from '../Container/FeedContainer';
+import LoginForm from '../Common/LoginForm';
 
 const GlobalStyle = createGlobalStyle`
   @import url('https://fonts.googleapis.com/css?family=Lato:300,400');
@@ -34,19 +35,71 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
+const backgroundAnimationMode2 = keyframes`
+  0% {
+    height: 95vh;
+    background: linear-gradient(60deg, #84c4bd 0%, rgba(0,172,193,1) 100%);
+  }
+  50% {
+    height: 20vh;
+    background: linear-gradient(60deg, #84c4bd 0%, rgba(0,172,193,1) 100%);
+  }
+  100% {
+    height: 95vh;
+    background: linear-gradient(60deg, #77a9d8 0%, #0271d9 100%); 
+  }
+`;
+
+const backgroundAnimationMode3 = keyframes`
+  0% {
+    height: 95vh;
+    background: linear-gradient(60deg, #84c4bd 0%, rgba(0,172,193,1) 100%);
+  }
+  50% {
+    height: 20vh;
+    background: linear-gradient(60deg, #84c4bd 0%, rgba(0,172,193,1) 100%);
+  }
+  100% {
+    height: 95vh;
+    background: linear-gradient(60deg, #eecbb2 0%, #f78a3c 100%); 
+  }
+`;
+
+const backgroundAnimationMode4 = keyframes`
+  0% {
+    height: 95vh;
+    background: linear-gradient(60deg, #84c4bd 0%, rgba(0,172,193,1) 100%);
+  }
+  100% {
+    height: 25vh;
+    background: linear-gradient(60deg, #e49b96 0%, #ee3c2f 100%);
+  }
+`;
 
 const LandingMainContainer = styled.div`  
+  position: relative;
   text-align: center;     
   background: linear-gradient(60deg, #84c4bd 0%, rgba(0,172,193,1) 100%);
   color: white;  
   height: 95vh;
-
   display: flex;
   flex-direction: column;
-  justify-content: space-between; 
+  justify-content: space-between;    
+
+  ${({ mode }) => mode === 2 && css`
+    animation: ${backgroundAnimationMode2} 1.7s ease-in-out forwards;
+  `}
+
+  ${({ mode }) => mode === 3 && css`
+    animation: ${backgroundAnimationMode3} 1.7s ease-in-out forwards;
+  `}
+
+  ${({ mode }) => mode === 4 && css`
+    animation: ${backgroundAnimationMode4} 1.5s forwards;
+  `}
 
   @media (max-width: 768px) {
-    height: 60vh; /* 작은 화면에서는 높이를 60%로 조정 */
+    height: 90vh;
   }
 `;
 
@@ -118,6 +171,7 @@ const MainMenuContainer = styled.div`
   height: 100%; // 부모 컨테이너(WaveHeader)의 높이와 동일하게 설정
 `;
 
+// 메뉴별 스타일
 
 // 타일 아래 부분
 
@@ -132,6 +186,17 @@ const ScrollableContent = styled.div`
 const LandingPage = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [mode, setMode] = useState(0);
+  const [showContainers, setShowContainers] = useState(false);
+
+  useEffect(() => {
+    if (mode === 2 || mode === 3 || mode === 4) {
+      setTimeout(() => {
+        setShowContainers(true);
+      }, 1500);
+    } else {
+      setShowContainers(false);
+    }
+  }, [mode]);
 
   const login = () => {
     setIsLoggedIn(true);
@@ -143,24 +208,10 @@ const LandingPage = () => {
     setMode(0);
   }
 
-  const backToUserHome = () => {
-    setMode(1);
-  }
-
-  const enterMyWorkspaces = () => {
-    setMode(2);
-    console.log(`mode = 2`)
-  }
-
-  const enterMySnapshots = () => {
-    setMode(3);
-    console.log(`mode = 3`)
-  }
-
-  const enterFeed = () => {
-    setMode(4);
-    console.log(`mode = 4`)
-  }
+  const backToUserHome = () => { setMode(1); }
+  const enterMyWorkspaces = () => { setMode(2); }
+  const enterMySnapshots = () => { setMode(3); }
+  const enterFeed = () => { setMode(4); }
 
   const renderMainContainer = () => {
     switch (mode) {
@@ -177,13 +228,13 @@ const LandingPage = () => {
           </MainMenuContainer>
         );
       case 2:
-        return <MyWorkspacesContainer />;
+        return showContainers ? <MyWorkspacesContainer /> : null;
       case 3:
-        return <MySnapshotsContainer />;
+        return showContainers ? <MySnapshotsContainer /> : null;
       case 4:
-        return <FeedContainer />;
+        return showContainers ? <FeedContainer /> : null;
       default:
-        return <AnonLandingContainer />;
+        return showContainers ? <AnonLandingContainer /> : null;
     }
   };
 
@@ -194,6 +245,7 @@ const LandingPage = () => {
         <HeaderUser
           logout={logout}
           backToUserHome={backToUserHome}
+          mode={mode}
         />
       ) : (
         <HeaderAnon login={login} />
@@ -201,7 +253,7 @@ const LandingPage = () => {
       }
       {/* <MusicNoteImage /> */}
 
-      <LandingMainContainer>
+      <LandingMainContainer mode={mode}>        
         {/* <InnerHeader>
           <Title>Let's Note</Title>
         </InnerHeader> */}
@@ -215,6 +267,7 @@ const LandingPage = () => {
 
 
       <ScrollableContent>
+        {/* <LoginForm /> */}
         <LandingScroll />
       </ScrollableContent>
     </>

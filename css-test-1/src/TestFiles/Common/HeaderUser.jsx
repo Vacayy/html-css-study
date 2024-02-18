@@ -31,11 +31,12 @@ const HeaderStyled = styled.header`
 `;
 
 const Logo = styled.a`
-  cursor: pointer;
   font-size: 32px;
   color: white;
   text-decoration: none;
-  font-weight: 700;
+  font-weight: 700;  
+
+  
 `;
 
 const Navbar = styled.nav`
@@ -46,6 +47,7 @@ const Navbar = styled.nav`
     font-weight: 500;
     text-decoration: none;
     margin-left: 40px;
+    cursor: pointer;
 
     &::before {
       content: '';
@@ -64,13 +66,23 @@ const Navbar = styled.nav`
   }
 `;
 
-const HeaderUser = ({logout, backToUserHome}) => {
+const HeaderUser = ({ logout, backToUserHome, mode }) => {
+  const renderLogoText = () => {
+    switch (mode) {
+      case 2: return "내 작업실";
+      case 3: return "내 작품";
+      case 4: return "피드 둘러보기";
+      default: return "Let's Note";
+    }
+  }
+
   return (
     <>
       <GlobalStyle />
       <HeaderStyled>
-        <Logo onClick={()=>backToUserHome()}>Let's Note</Logo>
+        <Logo>{renderLogoText()}</Logo>        
         <Navbar>
+          <btn onClick={() => backToUserHome()}>Home</btn>
           <btn href="#">피드백 주기</btn>
           <btn href="#">회원정보 수정</btn>
           <btn onClick={logout}>로그아웃</btn>
