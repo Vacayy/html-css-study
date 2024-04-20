@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import styled, { keyframes } from 'styled-components';
+import TrafficSign from './TrafficSign';
 
 const Container_white = styled.div`
   height: 100vh; // 전체 뷰포트 높이를 차지하도록 설정
@@ -126,6 +127,7 @@ const LandingScroll = () => {
 
     return (
         <div>
+            <TrafficSign />
             <Container_white>
                 <HiddenSectionRight ref={(el) => sectionsRef.current[0] = el}>
                     <h1>기능 1</h1>
